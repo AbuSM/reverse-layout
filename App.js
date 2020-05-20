@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Loading from './components/Loading';
+// import Loading from './components/Loading';
 import LoginPage from './components/LoginPage';
 
 export default function App() {

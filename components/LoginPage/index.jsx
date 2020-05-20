@@ -1,107 +1,172 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Image,
     View,
     Text,
     TouchableOpacity,
+    Dimensions,
 } from 'react-native';
 import screen from '../../assets/55.png';
-import {LinearGradient} from 'expo-linear-gradient';
+import swiper from '../../assets/swiper.png';
+import {LinearGradient} from 'expo-linear-gradient/build/index';
+import Modal from 'react-native-modal';
+import CustomInput from '../CustomInput';
 
-class LoginPage extends Component{
+const screenWidth = Math.round(Dimensions.get('window').width);
 
-    state = {
-        modal: false
-    };
+const LoginPage = () => {
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.head}>
-                    <Text style={[styles.heading, styles.bold]}>REVERSE</Text>
-                    <Text style={styles.subheading}>Тендеры в твоем кармане</Text>
-                </View>
-                <View>
-                    <Image source={screen} style={styles.images}/>
-                </View>
-                <View style={styles.buttons}>
+    const [modal, setModal] = useState(false);
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.head}>
+                <Text style={[styles.heading, styles.bold]}>REVERSE</Text>
+                <Text style={styles.subheading}>Тендеры в твоем кармане</Text>
+            </View>
+            <View>
+                <Image source={screen} style={styles.images}/>
+            </View>
+            <View style={styles.buttons}>
+                <TouchableOpacity>
+                    <LinearGradient style={[styles.btn, styles.btnSignUp]}
+                                    start={{x: 0, y: 0}}
+                                    end={{x: 1, y: 0}}
+                                    colors={['#08BD94', '#0599A2']}>
+                        <Text style={[{color: 'white'}, styles.textCenter]}>Я новый пользователь</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setModal(true)}>
+                    <LinearGradient style={[styles.btn, styles.btnLogin]}
+                                    colors={['#fff', '#fff']}>
+                        <Text style={styles.textCenter}>У меня есть профиль. Войти</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.footer}>
+                <Text style={styles.textCenter}>
+                    Нажимая «Я новый пользователь» вы принимаете&nbsp;
                     <TouchableOpacity>
-                        <LinearGradient style={[styles.btn, styles.btnSignUp]}
-                                        start={{x: 0, y: 0}}
-                                        end={{x: 1, y: 0}}
-                                        colors={['#08BD94', '#0599A2']}>
-                            <Text style={{color: 'white'}}>Я новый пользователь</Text>
-                        </LinearGradient>
+                        <Text >
+                            условия соглашения
+                        </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({modal: true})}>
-                        <LinearGradient style={[styles.btn, styles.btnLogin]}
-                                        colors={['#fff', '#fff']}>
-                            <Text>У меня есть профиль. Войти</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.footer}>
-                    <Text>
-                        Нажимая «Я новый пользователь» вы принимаете&nbsp;
-                        <TouchableOpacity>
-                            <Text style={{color: '#3E4571', textDecoration: 'underline'}}>
-                                условия соглашения
+                </Text>
+            </View>
+            <View style={{flex: 1}}>
+                <View>
+                    <Modal
+                        style={styles.modal}
+                        isVisible={modal}
+                        onBackdropPress={() => setModal(false)}
+                        swipeDirection="down"
+                        onSwipeComplete={() => setModal(false)}
+                    >
+                        <View style={styles.modalView}>
+                            <Image source={swiper} style={styles.swiper}/>
+                            <Text style={styles.modalHeading}>
+                                Войдите, чтобы
                             </Text>
-                        </TouchableOpacity>
-                    </Text>
+                            <Text style={styles.modalHeading}>
+                                начать работу
+                            </Text>
+                            <Text style={styles.modalSubHeading}>
+                                Создание тендера, выбор победителя и контроль за выполнение работ
+                            </Text>
+                            <CustomInput placeholder="E-mail"/>
+                            <CustomInput type='password' placeholder="Password"/>
+                        </View>
+                    </Modal>
                 </View>
             </View>
-        )
-    }
-}
+        </View>
+    )
+};
 
 const styles = StyleSheet.create({
     container: {
-        padding: '33px',
+        padding: 33,
         flex: 1,
         textAlign: 'center',
         justifyContent: 'center',
         alignItems: 'center',
     },
     head: {
-        marginBottom: '34px'
+        marginBottom: 34
     },
     images: {
-        width: '216px',
-        height: '354px',
+        width: 216,
+        height: 354,
     },
     btn: {
-        height: '45px',
+        height: 45,
         justifyContent: 'center',
-        borderRadius: '10px'
+        borderRadius: 10,
     },
     btnSignUp: {
-        marginBottom: '11px',
+        marginBottom: 11,
     },
     btnLogin: {
-        borderWidth: '2px',
+        borderWidth: 2,
         borderColor: '#E2E6EB',
         borderStyle: 'solid'
     },
     heading: {
-        fontSize: '49pt',
-        fontFamily: 'Merriweather'
+        fontSize: 49,
+        // fontFamily: 'Merriweather'
     },
     subheading: {
-        fontSize: '16pt',
-        fontFamily: 'Circle-Regular'
+        fontSize: 16,
+        // fontFamily: 'Circle-Regular'
     },
     buttons: {
-        width: '310px',
-        marginTop: '40px',
+        width: 310,
+        marginTop: 40,
     },
     bold: {
         fontWeight: 'bold'
     },
+    textCenter: {
+        textAlign: 'center'
+    },
     footer: {
-        marginTop: '25px'
-    }
+        marginTop: 25
+    },
+    modal: {
+        margin: 0,
+    },
+    swiper: {
+        width: 30,
+        height: 5,
+        marginBottom: 29.2,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 0,
+        flexDirection: 'row'
+    },
+    modalView: {
+        backgroundColor: 'white',
+        height: 432,
+        borderRadius: 20,
+        flex: 0,
+        bottom: 0,
+        position: 'absolute',
+        width: screenWidth,
+        alignItems: 'center',
+        paddingHorizontal: 32,
+        paddingVertical: 8,
+    },
+    modalHeading: {
+        fontSize: 21,
+        fontWeight: 'bold',
+    },
+    modalSubHeading: {
+        color: '#89929D',
+        textAlign: 'center',
+        marginTop: 10,
+    },
 });
 
 export default LoginPage;
