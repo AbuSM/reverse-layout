@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import closeBtn from '../../assets/close.png';
+import React, {useState, useEffect} from 'react';
+import closeBtn from '../../assets/clear.png';
 import {
     StyleSheet,
     TextInput,
@@ -7,46 +7,107 @@ import {
     Text,
     Image,
     View,
+    KeyboardAvoidingView
 } from 'react-native';
 
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 const CustomInput = ({
                          type = 'off',
-                         placeholder = '',
+                         label = ''
                      }) => {
-    const [text, setText] = useState('');
-    const [inputStyle, setInputStyle] = useState(styles.inputStable);
+    const [state, setState] = useState({
+        inputStyle: styles.inputStable,
+        isFocused: false,
+        text: undefined,
+        props: {}
+    });
+
+    useEffect(() => {
+        let props = {};
+        switch (type) {
+            case 'password':
+                props = {
+                    secureTextEntry: true,
+                };
+                break;
+            case 'off':
+                props = {
+                    autoCapitalize: 'sentences',
+                };
+                break;
+            case 'email':
+                props = {
+                    autoCapitalize: 'none',
+                    autoCorrect: false
+                };
+                break;
+            default:
+                return
+        }
+        setState({
+            ...state,
+            props
+        })
+    }, [type]);
 
     const handleChangeText = value => {
-        setText(value)
+        setState({...state, text: value});
     };
 
     const handleFocus = () => {
-        setInputStyle(styles.inputEditing);
+        setState({
+            ...state,
+            inputStyle: styles.inputEditing,
+            isFocused: true
+        })
     };
 
     const handleBlur = () => {
-        setInputStyle(styles.inputStable)
+        setState({
+            ...state,
+            inputStyle: styles.inputStable,
+            isFocused: false
+        })
     };
 
     const handleClear = () => {
-        setText('')
+        setState({
+            ...state,
+            text: undefined
+        })
+    };
+
+    const validateEmail = (email) => {
+        let re = /^\S+@\S+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const labelStyle = {
+        width: '100%',
+        position: 'absolute',
+        left: 0,
+        top: !state.isFocused && !state.text ? 0 : -17,
+        fontSize: !state.isFocused && !state.text ? 16 : 12,
+        fontWeight: !state.isFocused && !state.text ? 'bold' : 'normal',
+        color: !state.isFocused ? '#89929D' : focusColor,
+        fontFamily: 'Circle-Bold'
     };
 
     return (
         <View style={styles.view}>
-            <TextInput autoCompleteType={type}
-                       placeholder={placeholder}
-                       style={[styles.input, inputStyle]}
-                       placeholderTextColor={baseColor}
-                       // clearButtonMode="while-editing"
+            <Text style={labelStyle}>
+                {label}
+            </Text>
+            <TextInput {...state.props}
+                       style={[styles.input, state.inputStyle]}
                        onChangeText={handleChangeText}
                        onFocus={handleFocus}
                        onBlur={handleBlur}
-                       value={text}
+                       value={state.text}
             />
             <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
-                <Image source={closeBtn} style={styles.clearImage} />
+                <Image source={closeBtn} style={styles.clearImage}/>
             </TouchableOpacity>
         </View>
     )
@@ -61,14 +122,15 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
-        // display: 'flex',
+        alignItems: 'center',
+        margin: 10,
     },
     input: {
         height: 30,
         borderBottomWidth: 1,
         maxWidth: 310,
         width: '100%',
+        fontFamily: 'Circle-Bold'
     },
     inputStable: {
         borderColor: baseColor,
@@ -79,10 +141,10 @@ const styles = StyleSheet.create({
     clearImage: {
         width: 8,
         height: 8,
+        position: 'absolute',
+        right: 0,
     },
-    clearBtn: {
-
-    }
+    clearBtn: {}
 });
 
 export default CustomInput;

@@ -14,8 +14,8 @@ const Loading = () => {
 
 const styles = StyleSheet.create({
      loading: {
-         width: '72px',
-         height: '72px',
+         width: 72,
+         height: 72,
          flex: 1,
          justifyContent: 'center',
          alignItems: 'center'

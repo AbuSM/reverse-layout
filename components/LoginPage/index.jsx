@@ -5,92 +5,66 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Dimensions,
+    ScrollView
 } from 'react-native';
 import screen from '../../assets/55.png';
-import swiper from '../../assets/swiper.png';
-import {LinearGradient} from 'expo-linear-gradient/build/index';
-import Modal from 'react-native-modal';
-import CustomInput from '../CustomInput';
-
-const screenWidth = Math.round(Dimensions.get('window').width);
+import CustomButton from '../CustomButton';
+import Modal from '../Modal';
+import close from '../../assets/close.png';
 
 const LoginPage = () => {
 
     const [modal, setModal] = useState(false);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.head}>
-                <Text style={[styles.heading, styles.bold]}>REVERSE</Text>
-                <Text style={styles.subheading}>Тендеры в твоем кармане</Text>
-            </View>
-            <View>
-                <Image source={screen} style={styles.images}/>
-            </View>
-            <View style={styles.buttons}>
-                <TouchableOpacity>
-                    <LinearGradient style={[styles.btn, styles.btnSignUp]}
-                                    start={{x: 0, y: 0}}
-                                    end={{x: 1, y: 0}}
-                                    colors={['#08BD94', '#0599A2']}>
-                        <Text style={[{color: 'white'}, styles.textCenter]}>Я новый пользователь</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModal(true)}>
-                    <LinearGradient style={[styles.btn, styles.btnLogin]}
-                                    colors={['#fff', '#fff']}>
-                        <Text style={styles.textCenter}>У меня есть профиль. Войти</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.footer}>
-                <Text style={styles.textCenter}>
-                    Нажимая «Я новый пользователь» вы принимаете&nbsp;
-                    <TouchableOpacity>
-                        <Text >
-                            условия соглашения
-                        </Text>
-                    </TouchableOpacity>
-                </Text>
-            </View>
-            <View style={{flex: 1}}>
+        <ScrollView>
+            <Image source={close} style={styles.closeBtn}/>
+            <View style={styles.container}>
+                <View style={styles.head}>
+                    <Text style={styles.heading}>REVERSE</Text>
+                    <Text style={[styles.subheading, styles.textCenter]}>Тендеры в твоем кармане</Text>
+                </View>
                 <View>
-                    <Modal
-                        style={styles.modal}
-                        isVisible={modal}
-                        onBackdropPress={() => setModal(false)}
-                        swipeDirection="down"
-                        onSwipeComplete={() => setModal(false)}
-                    >
-                        <View style={styles.modalView}>
-                            <Image source={swiper} style={styles.swiper}/>
-                            <Text style={styles.modalHeading}>
-                                Войдите, чтобы
-                            </Text>
-                            <Text style={styles.modalHeading}>
-                                начать работу
-                            </Text>
-                            <Text style={styles.modalSubHeading}>
-                                Создание тендера, выбор победителя и контроль за выполнение работ
-                            </Text>
-                            <CustomInput placeholder="E-mail"/>
-                            <CustomInput type='password' placeholder="Password"/>
+                    <Image source={screen} style={styles.images}/>
+                </View>
+                <View style={styles.buttons}>
+                    <CustomButton text="Я новый пользователь" style={styles.btnSignUp}/>
+                    <TouchableOpacity onPress={() => setModal(true)}>
+                        <View style={[styles.btn, styles.btnLogin]}>
+                            <Text style={styles.textCenter}>У меня есть профиль. Войти</Text>
                         </View>
-                    </Modal>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.footer}>
+                    <Text style={styles.textCenter}>
+                        Нажимая «Я новый пользователь» вы принимаете&nbsp;
+                            <Text style={styles.textUnderline} onPress={() => {}}>
+                                условия соглашения
+                            </Text>
+                    </Text>
+                </View>
+                <View style={{flex: 1}}>
+                    <Modal isActive={modal} onClose={setModal}/>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
+    closeBtn: {
+        position: 'absolute',
+        height: 10.77,
+        width: 10.77,
+        top: 58.7,
+        right: 30.8,
+    },
     container: {
-        padding: 33,
+        paddingHorizontal: 33,
+        paddingTop: 99,
         flex: 1,
-        textAlign: 'center',
-        justifyContent: 'center',
         alignItems: 'center',
+        fontFamily: 'Circle',
     },
     head: {
         marginBottom: 34
@@ -114,59 +88,33 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 49,
-        // fontFamily: 'Merriweather'
+        fontFamily: 'Merriweather'
     },
     subheading: {
         fontSize: 16,
-        // fontFamily: 'Circle-Regular'
     },
     buttons: {
         width: 310,
         marginTop: 40,
     },
     bold: {
-        fontWeight: 'bold'
+        fontFamily: 'Circle-Bold'
     },
     textCenter: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'Circle'
+    },
+    textUnderline: {
+        textDecorationLine: 'underline',
+        color: '#3E4571'
     },
     footer: {
-        marginTop: 25
+        marginTop: 25,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        flex: 1,
     },
-    modal: {
-        margin: 0,
-    },
-    swiper: {
-        width: 30,
-        height: 5,
-        marginBottom: 29.2,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0,
-        flexDirection: 'row'
-    },
-    modalView: {
-        backgroundColor: 'white',
-        height: 432,
-        borderRadius: 20,
-        flex: 0,
-        bottom: 0,
-        position: 'absolute',
-        width: screenWidth,
-        alignItems: 'center',
-        paddingHorizontal: 32,
-        paddingVertical: 8,
-    },
-    modalHeading: {
-        fontSize: 21,
-        fontWeight: 'bold',
-    },
-    modalSubHeading: {
-        color: '#89929D',
-        textAlign: 'center',
-        marginTop: 10,
-    },
+
 });
 
 export default LoginPage;
