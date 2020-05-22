@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 
 
-const CustomInput = ({
-                         type = 'off',
-                         label = ''
-                     }) => {
+const CustomInput = ({type = 'off', label = ''}) => {
+
     const [state, setState] = useState({
         inputStyle: styles.inputStable,
         isFocused: false,
@@ -105,9 +103,11 @@ const CustomInput = ({
                            onBlur={handleBlur}
                            value={state.text}
                 />
-                <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
-                    <Image source={closeBtn} style={styles.clearImage}/>
-                </TouchableOpacity>
+                {state.text && (
+                    <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
+                        <Image source={closeBtn} style={styles.clearImage}/>
+                    </TouchableOpacity>
+                )}
             </View>
     )
 };
@@ -118,7 +118,6 @@ const focusColor = '#07AA9C';
 const styles = StyleSheet.create({
     view: {
         width: '100%',
-        // flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -142,6 +141,7 @@ const styles = StyleSheet.create({
         height: 8,
         position: 'absolute',
         right: 0,
+        bottom: 0,
     },
     clearBtn: {}
 });
