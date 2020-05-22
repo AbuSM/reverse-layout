@@ -7,6 +7,8 @@ import {
     Image,
     CheckBox,
     Dimensions,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import Modal from 'react-native-modal';
 import swiper from '../../assets/swiper.png';
@@ -14,24 +16,24 @@ import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
+const behavior = (Platform.OS === 'ios' ? 'padding' : null);
 
-
-const CustomModal = ({
-    isActive,
-    onClose = () => {}
-}) => {
+const CustomModal = ({isActive, onClose = () => {}}) => {
 
     const [active, setActive] = useState(false);
 
     return (
-        <View>
-            <Modal
-                style={styles.modal}
-                isVisible={isActive}
-                onBackdropPress={() => onClose(false)}
-                swipeDirection="down"
-                onSwipeComplete={() => onClose(false)}
-            >
+
+        <Modal
+            style={styles.modal}
+            isVisible={isActive}
+            onBackdropPress={() => onClose(false)}
+            swipeDirection="down"
+            onSwipeComplete={() => onClose(false)}
+        >
+            <KeyboardAvoidingView behavior={behavior}
+                                  enabled
+                                  keyboardVerticalOffset={50}>
                 <View style={styles.modalView}>
                     <Image source={swiper} style={styles.swiper}/>
                     <Text style={styles.modalHeading}>
@@ -43,6 +45,7 @@ const CustomModal = ({
                     <Text style={styles.modalSubHeading}>
                         Создание тендера, выбор победителя и контроль за выполнение работ
                     </Text>
+
                     <View style={styles.modalInput}>
                         <CustomInput type='email' label="E-mail"/>
                     </View>
@@ -60,8 +63,8 @@ const CustomModal = ({
                     </View>
                     <CustomButton text="Войти" style={styles.modalLoginBtn}/>
                 </View>
-            </Modal>
-        </View>
+            </KeyboardAvoidingView>
+        </Modal>
     )
 };
 
@@ -84,8 +87,8 @@ const styles = StyleSheet.create({
         height: 537,
         borderRadius: 20,
         flex: 0,
-        bottom: -10,
-        position: 'absolute',
+        bottom: Platform.OS === 'ios' ? -177: -100,
+        // position: Platform.OS === 'ios' ? 'relative': 'absolute',
         width: screenWidth,
         alignItems: 'center',
         paddingHorizontal: 32,
@@ -123,9 +126,7 @@ const styles = StyleSheet.create({
     modalCheckContainer: {
         flexDirection: 'row',
     },
-    modalForgot: {
-
-    },
+    modalForgot: {},
     modalForgotText: {
         includeFontPadding: true,
         textAlignVertical: 'bottom',

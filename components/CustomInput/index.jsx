@@ -7,10 +7,8 @@ import {
     Text,
     Image,
     View,
-    KeyboardAvoidingView
 } from 'react-native';
 
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 const CustomInput = ({
                          type = 'off',
@@ -95,21 +93,22 @@ const CustomInput = ({
     };
 
     return (
-        <View style={styles.view}>
-            <Text style={labelStyle}>
-                {label}
-            </Text>
-            <TextInput {...state.props}
-                       style={[styles.input, state.inputStyle]}
-                       onChangeText={handleChangeText}
-                       onFocus={handleFocus}
-                       onBlur={handleBlur}
-                       value={state.text}
-            />
-            <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
-                <Image source={closeBtn} style={styles.clearImage}/>
-            </TouchableOpacity>
-        </View>
+            <View style={styles.view}>
+
+                <Text style={labelStyle}>
+                    {label}
+                </Text>
+                <TextInput {...state.props}
+                           style={[styles.input, state.inputStyle]}
+                           onChangeText={handleChangeText}
+                           onFocus={handleFocus}
+                           onBlur={handleBlur}
+                           value={state.text}
+                />
+                <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
+                    <Image source={closeBtn} style={styles.clearImage}/>
+                </TouchableOpacity>
+            </View>
     )
 };
 

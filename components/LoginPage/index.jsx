@@ -5,28 +5,40 @@ import {
     View,
     Text,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
 } from 'react-native';
 import screen from '../../assets/55.png';
 import CustomButton from '../CustomButton';
 import Modal from '../Modal';
 import close from '../../assets/close.png';
+import Swiper from 'react-native-swiper';
 
 const LoginPage = () => {
 
     const [modal, setModal] = useState(false);
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex: 1, height: '100%'}}>
             <Image source={close} style={styles.closeBtn}/>
             <View style={styles.container}>
                 <View style={styles.head}>
                     <Text style={styles.heading}>REVERSE</Text>
                     <Text style={[styles.subheading, styles.textCenter]}>Тендеры в твоем кармане</Text>
                 </View>
-                <View>
-                    <Image source={screen} style={styles.images}/>
-                </View>
+                <Swiper style={styles.wrapper}
+                        dotStyle={styles.dotStyle}
+                        activeDotStyle={styles.activeDotStyle}
+                >
+                    <View style={styles.slide}>
+                        <Image source={screen} style={styles.images}/>
+                    </View>
+                    <View style={styles.slide}>
+                        <Image source={screen} style={styles.images}/>
+                    </View>
+                    <View style={styles.slide}>
+                        <Image source={screen} style={styles.images}/>
+                    </View>
+                </Swiper>
                 <View style={styles.buttons}>
                     <CustomButton text="Я новый пользователь" style={styles.btnSignUp}/>
                     <TouchableOpacity onPress={() => setModal(true)}>
@@ -38,14 +50,13 @@ const LoginPage = () => {
                 <View style={styles.footer}>
                     <Text style={styles.textCenter}>
                         Нажимая «Я новый пользователь» вы принимаете&nbsp;
-                            <Text style={styles.textUnderline} onPress={() => {}}>
-                                условия соглашения
-                            </Text>
+                        <Text style={styles.textUnderline} onPress={() => {
+                        }}>
+                            условия соглашения
+                        </Text>
                     </Text>
                 </View>
-                <View style={{flex: 1}}>
-                    <Modal isActive={modal} onClose={setModal}/>
-                </View>
+                <Modal isActive={modal} onClose={setModal}/>
             </View>
         </ScrollView>
     )
@@ -70,8 +81,27 @@ const styles = StyleSheet.create({
         marginBottom: 34
     },
     images: {
-        width: 216,
-        height: 354,
+        width: 160,
+        height: 320,
+        marginBottom: 26
+    },
+    wrapper: {
+        maxHeight: 354
+    },
+    dotStyle: {
+        width: 5,
+        height: 5,
+        backgroundColor: '#BFBFC3',
+    },
+    activeDotStyle: {
+        width: 5,
+        height: 5,
+        backgroundColor: 'black',
+    },
+    slide: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     btn: {
         height: 45,
