@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import closeBtn from '../../assets/clear.png';
 import {
     StyleSheet,
+    Platform,
     TextInput,
     TouchableOpacity,
     Text,
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     input: {
         height: 30,
         borderBottomWidth: 1,
-        maxWidth: 310,
+        maxWidth: Platform.OS === 'android' ? 345: 310,
         width: '100%',
         fontFamily: 'Circle-Bold'
     },

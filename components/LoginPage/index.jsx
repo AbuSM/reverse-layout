@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     ScrollView,
+    Platform
 } from 'react-native';
 import screen from '../../assets/55.png';
 import CustomButton from '../CustomButton';
@@ -50,8 +51,7 @@ const LoginPage = () => {
                 <View style={styles.footer}>
                     <Text style={styles.textCenter}>
                         Нажимая «Я новый пользователь» вы принимаете&nbsp;
-                        <Text style={styles.textUnderline} onPress={() => {
-                        }}>
+                        <Text style={styles.textUnderline} onPress={() => {}}>
                             условия соглашения
                         </Text>
                     </Text>
@@ -67,12 +67,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 10.77,
         width: 10.77,
-        top: 58.7,
+        top: Platform.OS === 'ios' ? 58.7: 40.3,
         right: 30.8,
     },
     container: {
         paddingHorizontal: 33,
-        paddingTop: 99,
+        paddingTop: Platform.OS === 'ios' ? 99: 60,
         flex: 1,
         alignItems: 'center',
         fontFamily: 'Circle',
@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
     },
     images: {
         width: 160,
-        height: 320,
+        height: Platform.OS === 'ios' ? 320: 290,
         marginBottom: 26
     },
     wrapper: {
-        maxHeight: 354
+        maxHeight: Platform.OS === 'ios' ? 354: 320
     },
     dotStyle: {
         width: 5,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     },
     buttons: {
         width: 310,
-        marginTop: 40,
+        marginTop: Platform.OS === 'ios' ? 40: 10,
     },
     bold: {
         fontFamily: 'Circle-Bold'
