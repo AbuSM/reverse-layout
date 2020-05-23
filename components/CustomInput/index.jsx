@@ -92,7 +92,6 @@ const CustomInput = ({type = 'off', label = ''}) => {
 
     return (
             <View style={styles.view}>
-
                 <Text style={labelStyle}>
                     {label}
                 </Text>
@@ -103,7 +102,7 @@ const CustomInput = ({type = 'off', label = ''}) => {
                            onBlur={handleBlur}
                            value={state.text}
                 />
-                {state.text && (
+                {!!state.text && (
                     <TouchableOpacity onPress={handleClear} style={styles.clearBtn}>
                         <Image source={closeBtn} style={styles.clearImage}/>
                     </TouchableOpacity>
@@ -139,11 +138,13 @@ const styles = StyleSheet.create({
     clearImage: {
         width: 8,
         height: 8,
-        position: 'absolute',
-        right: 0,
-        bottom: 0,
     },
-    clearBtn: {}
+    clearBtn: {
+        padding: 12,
+        position: 'absolute',
+        bottom: 0,
+        right: -12,
+    }
 });
 
 export default CustomInput;
