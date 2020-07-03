@@ -23,7 +23,7 @@ const LoginPage = () => {
             <View style={styles.container}>
                 <View style={styles.head}>
                     <Text style={styles.heading}>REVERSE</Text>
-                    <Text style={[styles.subheading, styles.textCenter]}>Тендеры в твоем кармане</Text>
+                    <Text style={[styles.fontSizeBigger, styles.textCenter]}>Тендеры в твоем кармане</Text>
                 </View>
                 <Swiper style={styles.wrapper}
                         dotStyle={styles.dotStyle}
@@ -43,7 +43,7 @@ const LoginPage = () => {
                     <CustomButton text="Я новый пользователь" style={styles.btnSignUp}/>
                     <TouchableOpacity onPress={() => setModal(true)}>
                         <View style={[styles.btn, styles.btnLogin]}>
-                            <Text style={styles.textCenter}>У меня есть профиль. Войти</Text>
+                            <Text style={[styles.textCenter, styles.bold, styles.fontSizeBigger]}>У меня есть профиль. Войти</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     btn: {
+        paddingTop: 10,
         height: 45,
         justifyContent: 'center',
         borderRadius: 10,
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
         fontSize: 49,
         fontFamily: 'Merriweather'
     },
-    subheading: {
+    fontSizeBigger: {
         fontSize: 16,
     },
     buttons: {
